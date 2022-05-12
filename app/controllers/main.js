@@ -1,19 +1,18 @@
 const BASE_URL = "https://6271e18825fed8fcb5ec0d68.mockapi.io/trung-tam";
 
-// console.log("http://loremflickr.com/640/480/animals");
+let validatorNd = new ValidatorND();
 
 //Lay danh sach Hoc Vien va Giao Vien
 const getDanhSachNguoiDung = function () {
-  let result = [];
   turnOnLoading();
   axios({
     url: BASE_URL,
     method: "GET",
   })
     .then(function (response) {
-      result = response.data;
-      xuatDanhSachVaoBang(result);
+      xuatDanhSachVaoBang(response.data);
       turnOffLoading();
+      return response.data;
     })
     .catch(function (error) {
       console.log(error);
@@ -23,7 +22,6 @@ const getDanhSachNguoiDung = function () {
 
 getDanhSachNguoiDung();
 
-//Xoa Nguoi dung
 const xoaNguoiDung = (id) => {
   turnOnLoading();
 
@@ -45,21 +43,50 @@ const xoaNguoiDung = (id) => {
 
 const themMoiNguoiDung = function () {
   turnOnLoading();
-  var newNguoiDung = layThongTinTuForm();
-  axios({
-    url: BASE_URL,
-    method: "POST",
-    data: newNguoiDung,
-  })
-    .then(function (response) {
-      $("#myModal").modal("hide");
-      console.log(newNguoiDung);
-      getDanhSachNguoiDung();
-      turnOffLoading();
+  let isValid = true;
+  let isValidTaiKhoan = kiemTraTaiKhoan(validatorNd);
+  let isValidTen = kiemTraHoTen(validatorNd);
+  let isValidMatKhau = kiemTraMatkhau(validatorNd);
+  let isValidEmail = kiemTraEmail(validatorNd);
+  let isValidImg = kiemTraHinhAnh(validatorNd);
+  let isValidUserType = kiemTraLoaiNguoiDung(validatorNd);
+  let isValidLanguage = kiemTraNgonNgu(validatorNd);
+  let isValidDiscript = kiemTraMoTa(validatorNd);
+
+  isValid =
+    isValidTaiKhoan &&
+    isValidTen &&
+    isValidMatKhau &&
+    isValidEmail &&
+    isValidImg &&
+    isValidUserType &&
+    isValidLanguage &&
+    isValidDiscript;
+
+  console.log({
+    isValid,
+  });
+
+  if (isValid) {
+    var newNguoiDung = layThongTinTuForm();
+    console.log(newNguoiDung);
+    axios({
+      url: BASE_URL,
+      method: "POST",
+      data: newNguoiDung,
     })
-    .catch(function (error) {
-      turnOffLoading();
-    });
+      .then(function (response) {
+        $("#myModal").modal("hide");
+        getDanhSachNguoiDung();
+        resetForm();
+        turnOffLoading();
+      })
+      .catch(function (error) {
+        turnOffLoading();
+      });
+  }
+  turnOffLoading();
+
 };
 
 //Cap nhat nguoi dung
@@ -95,28 +122,6 @@ const capNhatNguoiDung = function () {
       console.log(error);
     });
 };
-
-//Loc Danh sach nguoi dung (cach 1)
-/* const locNguoiDung = function () {
-  var inputData =
-    document.getElementById("locNguoiDung").value == "GV" ? true : false;
-  var listGiaoVien = [];
-  axios({
-    url: BASE_URL,
-    method: "GET",
-  })
-    .then(function (response) {
-      var result = response.data.forEach(function (item) {
-        if (item.loaiND == inputData) {
-          listGiaoVien.push(item);
-        }
-      });
-      xuatDanhSachVaoBang(listGiaoVien);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-}; */
 
 //Loc Danh sach nguoi dung (cach 2)
 const locNguoiDung = function () {

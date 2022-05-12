@@ -67,10 +67,81 @@ const duaThongTinLenForm = function (nguoiDung) {
   document.getElementById("MoTa").value = nguoiDung.moTa;
 };
 
+let kiemTraTaiKhoan = function (validatorNd) {
+  return validatorNd.checkEmtyInput(
+    "TaiKhoan",
+    "tbTaiKhoan",
+    "Vui lòng nhập tài khoản"
+  );
+};
+
+let kiemTraHoTen = function (validatorNd) {
+  return (
+    validatorNd.checkEmtyInput("HoTen", "tbHoTen", "Vui lòng nhập Họ tên") &&
+    validatorNd.checkName(
+      "HoTen",
+      "tbHoTen",
+      "Họ tên không chứa số và ký tự đặc biệt"
+    )
+  );
+};
+
+let kiemTraMatkhau = function (validatorNd) {
+  return (
+    validatorNd.checkEmtyInput(
+      "MatKhau",
+      "tbMatKhau",
+      "Vui lòng nhập Mật khẩu"
+    ) && validatorNd.checkPass("MatKhau", "tbMatKhau", "Mật khẩu sai định dạng")
+  );
+};
+
+let kiemTraEmail = function (validatorNd) {
+  return (
+    validatorNd.checkEmtyInput("Email", "tbEmail", "Vui lòng nhập Email") &&
+    validatorNd.checkEmail("Email", "tbEmail", "Email không đúng định dạng")
+  );
+};
+
+let kiemTraHinhAnh = function (validatorNd) {
+  return validatorNd.checkEmtyInput(
+    "HinhAnh",
+    "tbHinhAnh",
+    "Vui lòng nhập Hình ảnh"
+  );
+};
+
+let kiemTraLoaiNguoiDung = function (validatorNd) {
+  return validatorNd.checkTypeUser(
+    "loaiNguoiDung",
+    "tbLoaiNguoiDung",
+    "Vui lòng chọn loại người dùng"
+  );
+};
+
+let kiemTraNgonNgu = function (validatorNd) {
+  return validatorNd.checkLanguage(
+    "loaiNgonNgu",
+    "tbLoaiNgonNgu",
+    "Vui lòng chọn ngôn ngữ"
+  );
+};
+
+let kiemTraMoTa = function (validatorNd) {
+  return (
+    validatorNd.checkEmtyInput("MoTa", "tbMoTa", "Vui lòng nhập nội dung") &&
+    validatorNd.checkDiscription("MoTa", "tbMoTa", "Nội dung nhập quá 60 ký tự")
+  );
+};
+
 function turnOnLoading() {
   document.getElementById("loading").style.display = "flex";
 }
 
 function turnOffLoading() {
   document.getElementById("loading").style.display = "none";
+}
+
+function resetForm() {
+  document.getElementById("form-reset").reset();
 }

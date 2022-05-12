@@ -17,6 +17,7 @@
     />
 
     <link rel="stylesheet" href="../../assets/css/loading.css" />
+    <link rel="stylesheet" href="../../assets/css/style.css" />
   </head>
 
   <body>
@@ -130,13 +131,17 @@
             <div class="col-md-4">
               <!-- BEGIN TÌM KIẾM -->
               <div class="input-group mb-3">
-                  <select class="form-control" id="locNguoiDung">
-                    <option>Lọc người dùng</option>
-                    <option value="GV">Giáo viên</option>
-                    <option value="HV">Học viên</option>
-                  </select>
+                <select class="form-control" id="locNguoiDung">
+                  <option>Lọc người dùng</option>
+                  <option value="GV">Giáo viên</option>
+                  <option value="HV">Học viên</option>
+                </select>
                 <div class="input-group-append">
-                  <span class="input-group-text btn btn-outline-primary" id="basic-addon2" onclick = "locNguoiDung()" style="cursor: pointer;"
+                  <span
+                    class="input-group-text btn btn-outline-primary"
+                    id="basic-addon2"
+                    onclick="locNguoiDung()"
+                    style="cursor: pointer"
                     ><i class="fa fa-search"></i
                   ></span>
                 </div>
@@ -195,85 +200,93 @@
               <h4 class="lead" id="idNguoiDung">
                 ID người dùng: <span></span>
               </h4>
-              <div class="form-group">
-                <label>Tài khoản</label>
-                <input
-                  id="TaiKhoan"
-                  class="form-control"
-                  placeholder="Nhập vào tài khoản"
-                />
-              </div>
-              <div class="form-group">
-                <label>Họ tên</label>
-                <input
-                  id="HoTen"
-                  class="form-control"
-                  placeholder="Nhập vào họ tên"
-                />
-              </div>
-              <div class="form-group">
-                <label>Mật khẩu</label>
-                <input
-                  id="MatKhau"
-                  class="form-control"
-                  placeholder="Nhập vào mật khẩu"
-                  type="password"
-                />
-              </div>
-              <div class="form-group">
-                <label>Email</label>
-                <input
-                  id="Email"
-                  class="form-control"
-                  placeholder="Nhập vào Email"
-                />
-              </div>
-              <div class="form-group">
-                <label>Hình Ảnh</label>
-                <input
-                  id="HinhAnh"
-                  class="form-control"
-                  placeholder="Nhập vào hình ảnh"
-                />
-              </div>
-              <div class="form-group">
-                <label for="">Loại Người Dùng: </label>
-                <select class="form-control" id="loaiNguoiDung">
-                  <option>Chọn loại người dùng</option>
-                  <option value="GV">Giáo viên</option>
-                  <option value="HV">Học viên</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="">Loại Ngôn Ngữ: </label>
-                <select class="form-control" id="loaiNgonNgu">
-                  <option>Chọn ngôn ngữ</option>
-                  <option>ITALIAN</option>
-                  <option>FRENCH</option>
-                  <option>JAPANESE</option>
-                  <option>CHINESE</option>
-                  <option>RUSSIAN</option>
-                  <option>SWEDEN</option>
-                  <option>SPANISH</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label>Mô tả</label>
-                <textarea
-                  name=""
-                  id="MoTa"
-                  class="form-control"
-                  placeholder="Nhập vào mô tả"
-                ></textarea>
-              </div>
+              <form action="" id="form-reset">
+                <div class="form-group">
+                  <label>Tài khoản</label>
+                  <input
+                    id="TaiKhoan"
+                    class="form-control"
+                    placeholder="Nhập vào tài khoản"
+                  />
+                  <span class="sp-thongbao" id="tbTaiKhoan"></span>
+                </div>
+                <div class="form-group">
+                  <label>Họ tên</label>
+                  <input
+                    id="HoTen"
+                    class="form-control"
+                    placeholder="Nhập vào họ tên"
+                  />
+                  <span class="sp-thongbao" id="tbHoTen"></span>
+                </div>
+                <div class="form-group">
+                  <label>Mật khẩu</label>
+                  <input
+                    id="MatKhau"
+                    class="form-control"
+                    placeholder="Nhập vào mật khẩu"
+                    type="password"
+                  />
+                  <span class="sp-thongbao" id="tbMatKhau"></span>
+                </div>
+                <div class="form-group">
+                  <label>Email</label>
+                  <input
+                    id="Email"
+                    class="form-control"
+                    placeholder="Nhập vào Email"
+                  />
+                  <span class="sp-thongbao" id="tbEmail"></span>
+                </div>
+                <div class="form-group">
+                  <label>Hình Ảnh</label>
+                  <input
+                    id="HinhAnh"
+                    class="form-control"
+                    placeholder="Nhập vào hình ảnh"
+                  />
+                  <span class="sp-thongbao" id="tbHinhAnh"></span>
+                </div>
+                <div class="form-group">
+                  <label for="">Loại Người Dùng: </label>
+                  <select class="form-control" id="loaiNguoiDung">
+                    <option>Chọn loại người dùng</option>
+                    <option value="GV">Giáo viên</option>
+                    <option value="HV">Học viên</option>
+                  </select>
+                  <span class="sp-thongbao" id="tbLoaiNguoiDung"></span>
+                </div>
+                <div class="form-group">
+                  <label for="">Loại Ngôn Ngữ: </label>
+                  <select class="form-control" id="loaiNgonNgu">
+                    <option>Chọn ngôn ngữ</option>
+                    <option>ITALIAN</option>
+                    <option>FRENCH</option>
+                    <option>JAPANESE</option>
+                    <option>CHINESE</option>
+                    <option>RUSSIAN</option>
+                    <option>SWEDEN</option>
+                    <option>SPANISH</option>
+                  </select>
+                  <span class="sp-thongbao" id="tbLoaiNgonNgu"></span>
+                </div>
+                <div class="form-group">
+                  <label>Mô tả</label>
+                  <textarea
+                    name=""
+                    id="MoTa"
+                    class="form-control"
+                    placeholder="Nhập vào mô tả"
+                  ></textarea>
+                  <span class="sp-thongbao" id="tbMoTa"></span>
+                </div>
+              </form>
             </div>
             <!-- Modal footer -->
             <div class="modal-footer">
               <button
                 type="button"
                 class="btn btn-primary"
-                data-toggle="modal"
-                data-target="#myModal"
                 onclick="themMoiNguoiDung()"
               >
                 Thêm mới
@@ -286,6 +299,15 @@
                 onclick="capNhatNguoiDung()"
               >
                 Câp nhật
+              </button>
+              <button
+                type="button"
+                class="btn btn-outline-danger"
+                data-toggle="modal"
+                data-target="#myModal"
+                onclick="resetForm()"
+              >
+                Đóng
               </button>
             </div>
           </div>
@@ -327,6 +349,7 @@
     ></script>
 
     <script src="../models/nguoiDungModel.js"></script>
+    <script src="../models/validatorNDModel.js"></script>
     <script src="../controllers/nguoiDungController.js"></script>
     <script src="../controllers/main.js"></script>
   </body>

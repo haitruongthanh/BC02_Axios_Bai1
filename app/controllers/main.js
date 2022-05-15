@@ -3,9 +3,9 @@ const BASE_URL = "https://6271e18825fed8fcb5ec0d68.mockapi.io/trung-tam";
 let validatorNd = new ValidatorND();
 
 //Lay danh sach Hoc Vien va Giao Vien
-const getDanhSachNguoiDung = function () {
+const getDanhSachNguoiDung = async function () {
   turnOnLoading();
-  axios({
+  await axios({
     url: BASE_URL,
     method: "GET",
   })
@@ -21,6 +21,24 @@ const getDanhSachNguoiDung = function () {
 };
 
 getDanhSachNguoiDung();
+
+/* let getList = async () => {
+  let result = await axios({
+    url: BASE_URL,
+    method: "GET",
+  });
+  return result.data;
+};
+
+// let listNguoiDung = await getList();
+let listNguoiDung = [];
+getList().then(function (item) {
+  console.log(item);
+  listNguoiDung = item;
+  console.log(listNguoiDung);
+  return listNguoiDung;
+});
+ */
 
 const xoaNguoiDung = (id) => {
   turnOnLoading();
@@ -86,7 +104,6 @@ const themMoiNguoiDung = function () {
       });
   }
   turnOffLoading();
-
 };
 
 //Cap nhat nguoi dung
@@ -107,20 +124,56 @@ const layIdNguoiDung = function (id) {
 const capNhatNguoiDung = function () {
   turnOnLoading();
   var idNguoiDung = document.querySelector("#idNguoiDung span").innerHTML * 1;
-  var updatedNguoiDung = layThongTinTuForm();
-  axios({
-    url: `${BASE_URL}/${idNguoiDung}`,
-    method: "PUT",
-    data: updatedNguoiDung,
-  })
-    .then(function (response) {
-      $("#myModal").modal("hide");
-      getDanhSachNguoiDung();
-      turnOffLoading();
+
+  let isValid = true;
+  let isValidTaiKhoan = kiemTraTaiKhoan(validatorNd);
+  let isValidTen = kiemTraHoTen(validatorNd);
+  let isValidMatKhau = kiemTraMatkhau(validatorNd);
+  let isValidEmail = kiemTraEmail(validatorNd);
+  let isValidImg = kiemTraHinhAnh(validatorNd);
+  let isValidUserType = kiemTraLoaiNguoiDung(validatorNd);
+  let isValidLanguage = kiemTraNgonNgu(validatorNd);
+  let isValidDiscript = kiemTraMoTa(validatorNd);
+
+  isValid =
+    isValidTaiKhoan &&
+    isValidTen &&
+    isValidMatKhau &&
+    isValidEmail &&
+    isValidImg &&
+    isValidUserType &&
+    isValidLanguage &&
+    isValidDiscript;
+  console.log(
+    isValidTaiKhoan,
+    isValidTen,
+    isValidMatKhau,
+    isValidEmail,
+    isValidImg,
+    isValidUserType,
+    isValidLanguage,
+    isValidDiscript
+  );
+
+  if (isValid) {
+    var updatedNguoiDung = layThongTinTuForm();
+    axios({
+      url: `${BASE_URL}/${idNguoiDung}`,
+      method: "PUT",
+      data: updatedNguoiDung,
     })
-    .catch(function (error) {
-      console.log(error);
-    });
+      .then(function (response) {
+        $("#myModal").modal("hide");
+        getDanhSachNguoiDung();
+        resetForm();
+        turnOffLoading();
+      })
+      .catch(function (error) {
+        console.log(error);
+        turnOffLoading();
+      });
+  }
+  turnOffLoading();
 };
 
 //Loc Danh sach nguoi dung (cach 2)

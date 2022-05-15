@@ -1,5 +1,6 @@
 const BASE_URL = "https://6271e18825fed8fcb5ec0d68.mockapi.io/trung-tam";
-
+let listNguoiDung = [];
+let USER_LIST_LOCAL = "USER_LIST_LOCAL";
 let validatorNd = new ValidatorND();
 
 //Lay danh sach Hoc Vien va Giao Vien
@@ -12,33 +13,14 @@ const getDanhSachNguoiDung = async function () {
     .then(function (response) {
       xuatDanhSachVaoBang(response.data);
       turnOffLoading();
-      return response.data;
+      saveToLocal();
     })
     .catch(function (error) {
       console.log(error);
       turnOffLoading();
     });
 };
-
 getDanhSachNguoiDung();
-
-/* let getList = async () => {
-  let result = await axios({
-    url: BASE_URL,
-    method: "GET",
-  });
-  return result.data;
-};
-
-// let listNguoiDung = await getList();
-let listNguoiDung = [];
-getList().then(function (item) {
-  console.log(item);
-  listNguoiDung = item;
-  console.log(listNguoiDung);
-  return listNguoiDung;
-});
- */
 
 const xoaNguoiDung = (id) => {
   turnOnLoading();
@@ -50,6 +32,7 @@ const xoaNguoiDung = (id) => {
     .then(function (response) {
       getDanhSachNguoiDung();
       turnOffLoading();
+      saveToLocal();
     })
     .catch(function (error) {
       console.log(error);
@@ -58,11 +41,13 @@ const xoaNguoiDung = (id) => {
 };
 
 //Them moi Nguoi Dung
-
 const themMoiNguoiDung = function () {
   turnOnLoading();
+  var newNguoiDung = layThongTinTuForm();
   let isValid = true;
-  let isValidTaiKhoan = kiemTraTaiKhoan(validatorNd);
+  let isValidTaiKhoan =
+    kiemTraTaiKhoan(validatorNd) &&
+    validatorNd.checkIdDuplicate(newNguoiDung.taiKhoan, listNguoiDung);
   let isValidTen = kiemTraHoTen(validatorNd);
   let isValidMatKhau = kiemTraMatkhau(validatorNd);
   let isValidEmail = kiemTraEmail(validatorNd);
@@ -86,7 +71,6 @@ const themMoiNguoiDung = function () {
   });
 
   if (isValid) {
-    var newNguoiDung = layThongTinTuForm();
     console.log(newNguoiDung);
     axios({
       url: BASE_URL,
@@ -98,6 +82,7 @@ const themMoiNguoiDung = function () {
         getDanhSachNguoiDung();
         resetForm();
         turnOffLoading();
+        saveToLocal();
       })
       .catch(function (error) {
         turnOffLoading();
@@ -167,6 +152,7 @@ const capNhatNguoiDung = function () {
         getDanhSachNguoiDung();
         resetForm();
         turnOffLoading();
+        saveToLocal();
       })
       .catch(function (error) {
         console.log(error);
@@ -205,3 +191,22 @@ const locNguoiDung = function () {
       console.log(error);
     });
 };
+
+let saveToLocal = async () => {
+  await axios({
+    url: BASE_URL,
+    method: "GET",
+  })
+    .then((response) => {
+      let listUserJson = JSON.stringify(response.data);
+      localStorage.setItem(USER_LIST_LOCAL, listUserJson);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
+let listUserJson = localStorage.getItem(USER_LIST_LOCAL);
+if (listUserJson) {
+  listNguoiDung = JSON.parse(listUserJson);
+}
